@@ -5,8 +5,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon'; 
 import ListItemText from '@mui/material/ListItemText';
 import { LightbulbOutlined as Lightbulb, ArchiveOutlined as Archive, DeleteOutlineOutlined as Delete } from "@mui/icons-material";
-const NavList = ({open})=>{
 
+const NavList = ({open})=>{
+  
     const iconList = [
         {id: 1, name: 'Notes', icon: <Lightbulb/>},
         {id: 2, name: 'Archive', icon: <Archive/>},

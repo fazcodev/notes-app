@@ -1,0 +1,6 @@
+.item:hover .drag{
+    visibility: visible;
+}
+.item:focus .drag{
+    visibility: visible;
+}

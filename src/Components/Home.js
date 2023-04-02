@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import SwipeDrawer from './SwipeDrawer'
-import InputNotes from './Notes/InputNotes'
-const  Home = ()=>{
+import Notes from './Notes/Notes'
+import DataContext from './Helpers/DataContext'
+import Overlay from './UI/Overlay'
+import {Box} from "@mui/material"
 
+const  Home = ()=>{
+    const {openModal} = useContext(DataContext)
+    let overlay = Object.keys(openModal).length !== 0 ? true: false;
     return (
-        <>
-        <SwipeDrawer/>
-        <InputNotes/>
-        </>
+        <Box sx = {{display: 'flex', width: '100%'}} className={overlay ? `text-center content-center relative`: ``}>
+            {Object.keys(openModal).length !== 0 && <Overlay/>}
+            <SwipeDrawer/>
+            <Notes/>
+            
+        </Box>
     )
 }
 export default Home

@@ -41,6 +41,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    zIndex: 10,
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -56,14 +57,17 @@ const drawerReducer = (state, action)=>{
         if(!state.buttonOpen)return{open: !state.open, buttonOpen: state.buttonOpen}
         else return {open: state.open, buttonOpen: state.buttonOpen}
     }
-    if(action.type === 'clickSlide')return {open: !state.open, buttonOpen: !state.buttonOpen}
+    if(action.type === 'clickSlide'){
+      console.log(!state.buttonOpen)
+      return {open: !state.open, buttonOpen: !state.buttonOpen}
+    }
     return {open: false, buttonOpen: false}
 }
-export default function SwipeDrawer() {
-    const theme = useTheme();
+export default function SwipeDrawer(props) {
+
     const [drawerState, dispatchDrawer] = React.useReducer(drawerReducer, {open: false, buttonOpen: false})
     const button_handleDrawer = ()=>{
-        dispatchDrawer({type: 'clickSlide'})
+        dispatchDrawer({type: 'clickSlide', func: props.drawerOpen})
     }   
     const handleDrawer = ()=>{
         dispatchDrawer({type: 'slide'})
@@ -76,6 +80,7 @@ export default function SwipeDrawer() {
                 <DrawerHeader> </DrawerHeader>
                 <NavList open = {drawerState.open}/>
             </Drawer>
+            
         
         </Box>
     );
