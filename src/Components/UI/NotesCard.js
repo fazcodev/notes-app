@@ -15,8 +15,9 @@ const Card = (props) => {
     
     
     const OpenModalHandler = ()=>{
-        if(props.Note.isTodo === true)ctx.setOpenModal({value: "TodoNote", note: props.Note});
-        else ctx.setOpenModal({value: "TextNote", note: props.Note})
+        if(props.Note.isTodo === true)ctx.setOpenModal("TodoNote");
+        else ctx.setOpenModal("TextNote")
+        ctx.setNewNote(props.Note);
     }
     return (
         <div onClick={OpenModalHandler} style={{ backgroundColor: 'black', padding: '0.05rem'}} className={`container w-full max-h-40 relative shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-xl overflow-hidden`}>

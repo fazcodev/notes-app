@@ -9,8 +9,10 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import { arrayMoveImmutable as arrayMove } from 'array-move';
 
 import './UndoneList.css'
+import { TextField } from '@mui/material';
 const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
   const editTodoHandler = async (event, itemId) => {
+    event.target.setSelectionRange(-1, -1)
     setTodo((prevList) => {
       let updatedList = { ...prevList };
       updatedList.undone.forEach(item => {
@@ -18,7 +20,7 @@ const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
       });
       return updatedList;
     })
-
+   
   }
   
   const handleToggle = (value) => {
@@ -51,7 +53,20 @@ const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
             className='px-1 py-0.5 transform scale-90 ml-0.5'
           />
         </ListItemIcon>
-        <input type='text' autoFocus id={labelId} value={value.text} spellCheck='false' onChange={(event) => editTodoHandler(event, value.id)}  className='p-0 pl-3 w-full'></input>
+        <TextField
+          id={labelId}
+          multiline
+          maxRows={4}
+          fullWidth
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+          }}
+          autoFocus
+          className="w-full pl-3"
+          value = {value.text}
+          onChange={(event)=>editTodoHandler(event, value.id)}
+        />
       </ListItemButton>
     </ListItem>
   )

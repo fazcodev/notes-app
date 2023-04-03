@@ -81,7 +81,7 @@ const InputNotes = () => {
       let updatedNote = { ...prevNote, url: URL.createObjectURL(event.target.files[0]) };
       return updatedNote
     });
-    if(!setMakeList)setMakeNote(true);
+    if(!makeList)setMakeNote(true);
     
   };
   
@@ -130,13 +130,13 @@ const InputNotes = () => {
               </ul>
             </div>
           )}
-          {Object.keys(ctx.openModal).length === 0 && ctx.newNote.url !== "" && (
+          {ctx.openModal.length === 0 && ctx.newNote.url !== "" && (
             <div className="w-full overflow-y-auto max-h-72">
               <img className="w-full" alt="Uploaded" src={ctx.newNote.url}></img>
             </div>
           )}
-          {makeList && (<Todo note = {ctx.newNote} setNewNote = {ctx.setNewNote} bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeList = {setMakeList} closeNoteHandler = {closeNoteHandler}/> )}
-          {makeNote && <TextNote note= {ctx.newNote} bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeNote = {setMakeNote} closeNoteHandler = {closeNoteHandler}/>}
+          {makeList && (<Todo bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeList = {setMakeList} closeNoteHandler = {closeNoteHandler}/> )}
+          {makeNote && <TextNote bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeNote = {setMakeNote} closeNoteHandler = {closeNoteHandler}/>}
         </div>
       </ClickAwayListener>
     </>

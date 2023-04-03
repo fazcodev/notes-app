@@ -7,9 +7,8 @@ const DataProvider = (props)=>{
     const [archiveNotes, setArchiveNotes] = useState([])
     const [deletedNotes, setDeletedNotes] = useState([])
     const [alertList, setAlertList] = useState([])
-    const [openModal, setOpenModal] = useState({});
-    let overlay = Object.keys(openModal).length !==0 ? true: false;
-    const [newNote, setNewNote] = useState(overlay? openModal.note: {
+    const [openModal, setOpenModal] = useState("");
+    const [newNote, setNewNote] = useState({
         id: "",
         bgcolor: "white",
         url: "",
@@ -44,14 +43,14 @@ const DataProvider = (props)=>{
           return changedNote;
         });
       };
-    const editImageHandler = (event, Note) => {
+    const editImageHandler = (event) => {
         setNewNote((prevNote) => {
             const updatedNote = {...prevNote, url: URL.createObjectURL(event.target.files[0])}
             return updatedNote;
         })
 
     }
-    const bgcolorHandler = (event, Note) => {
+    const bgcolorHandler = (event) => {
         setNewNote((prevNote) => {
             const updatedNote = {...prevNote, bgcolor: event.target.value}
             return updatedNote;

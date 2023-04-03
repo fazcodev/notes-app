@@ -11,8 +11,8 @@ import DataContext from "../Helpers/DataContext";
 
 const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInputField, note}) => {
     
-    const {deleteNoteHandler, archiveNoteHandler, openModal} = useContext(DataContext)
-    let overlay = Object.keys(openModal).length !== 0 ? true: false;
+    const {deleteNoteHandler, archiveNoteHandler, openModal, newNote} = useContext(DataContext)
+    let overlay = openModal.length !== 0 ? true: false;
     return (
         <div className="flex justify-between">
             <ul className="flex mb-2">
@@ -24,7 +24,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                         type="color"
                         id="bgcolor"
                         className="hidden"
-                        onChange={overlay ? (event)=>{bgcolorHandler(event, openModal.note)}:bgcolorHandler}
+                        onChange={overlay ? (event)=>{bgcolorHandler(event)}:bgcolorHandler}
                     />
                     <label htmlFor="bgcolor" className="cursor-pointer" title="Background Color">
                         <ColorLensOutlined />
@@ -34,7 +34,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                     key="2"
                     className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                     title="Archive"
-                    onClick={overlay ? ()=>{closeHandler(); archiveNoteHandler(openModal.note)} : ()=>archiveNoteHandler(note)}
+                    onClick={overlay ? ()=>{archiveNoteHandler(newNote); closeHandler(); } : ()=>archiveNoteHandler(note)}
                 >
                     <ArchiveOutlined className="cursor-pointer" />
                 </li>
@@ -47,20 +47,21 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                         accept="image/*"
                         id="file"
                         className="hidden"
-                        onChange={overlay ? (event)=>{insertImageHandler(event, openModal.note)}:insertImageHandler}
+                        onChange={overlay ? (event)=>{insertImageHandler(event)}:insertImageHandler}
                     />
                     <label htmlFor="file" title="Add Image">
                         <AddPhotoAlternateOutlined className="cursor-pointer" />
                     </label>
                 </li>
-                {Object.keys(openModal).length !== 0 && 
+                {overlay && 
                     <li
                         key="4"
                         className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                         title="Delete"
                         onClick={(event)=>{
+                           
+                            deleteNoteHandler(newNote)
                             closeHandler()
-                            deleteNoteHandler(openModal.note)
                         }}
                     >
                         <DeleteOutlined className="cursor-pointer" />

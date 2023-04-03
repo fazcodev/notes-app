@@ -7,11 +7,11 @@ import DoneList from "../UI/DoneList"
 import NoteOptions from "./NoteOptions";
 import DataContext from "../Helpers/DataContext";
 
-const Todo = ({note, bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>{
+const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>{
     
     const ctx = useContext(DataContext)
     let overlay = Object.keys(ctx.openModal).length !== 0 ? true: false
-    const [todoList, setTodoList] = useState(overlay ? note.todo: {done: [], undone: []});
+    const [todoList, setTodoList] = useState(overlay ? ctx.newNote.todo: {done: [], undone: []});
     const [checked, setChecked] = useState([]);
     const [openDrop, setOpenDrop] = useState(false)
     const contentChangeHandler = (event)=>{
@@ -24,7 +24,7 @@ const Todo = ({note, bgcolorHandler, insertImageHandler, setMakeList, closeHandl
     }
     useEffect(()=>{
         ctx.setNewNote((prevNote)=>{
-            let updatedNote = {...prevNote, heading: note.heading, todo: todoList, isTodo: true};
+            let updatedNote = {...prevNote, todo: todoList, isTodo: true};
             return updatedNote
         })
     }, [todoList])
