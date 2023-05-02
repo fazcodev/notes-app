@@ -1,32 +1,18 @@
-import { Grid } from '@mui/material'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import "../../../node_modules/react-grid-layout/css/styles.css"
+import "../../../node_modules/react-resizable/css/styles.css"
+import {Responsive , WidthProvider } from "react-grid-layout"
 import DataContext from '../Helpers/DataContext'
 import { BookmarkAddOutlined } from '@mui/icons-material'
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Card from '../UI/NotesCard'
+import NotesCard from '../UI/NotesCard'
 
-const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-  
-    return result;
-  };
 const NotesList = () => {
     const ctx = useContext(DataContext)
-    const onDragEnd = (result) => {
-        if (!result.destination) {
-            return;
-        }
-
-        const items = reorder(
-            ctx.notesList,
-            result.source.index,
-            result.destination.index
-        );
-        ctx.setNotesList(items)
-
-    }
+    
+    const ResponsiveGridLayout = WidthProvider(Responsive)
+    const arr = ctx.notesList.map((note, idx)=>{
+        return <div className='rounded-lg overflow-hidden border border-black' data-grid = {{x:2*(idx%5), y: 0, w: 2, h: 4, minW: 2, minH: 3, maxW: 5, maxH: 6}} key = {idx}><NotesCard Note = {note}/></div>
+    })
     return (
         <>
             {ctx.notesList.length === 0 &&
@@ -35,43 +21,32 @@ const NotesList = () => {
                     <h1>Notes you add appear here</h1>
                 </div>
             }
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable" direction="horizontal">
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}>
-                            <Grid container className='mt-16 mx-auto'>
-                                {
-                                    ctx.notesList.map((note, index) =>
-                                    (
-                                        <Draggable key={note.id} draggableId={note.id} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className='w-1/5 m-3'
-                                                    
-                                                >
-                                                    <Grid item key={note.id} >
-                                                        <Card Note={note} />
-                                                    </Grid>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))
-                                }
-
-                            </Grid>
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            {
+                ctx.notesList.length !== 0 &&
+                <div className='mt-16 mr-5 w-full'>
+                    <ResponsiveGridLayout
+                        className="layout"
+                        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+                        rowHeight={30}
+                        // layout = {layout}
+                        // onLayoutChange = {store}
+                    >
+                        {
+                            arr
+                        }
+                    </ResponsiveGridLayout>
+                </div> 
+                
+            }     
         </>
 
 
     )
 }
-
 export default NotesList
+
+// export default React.memo(NotesList, (prevProps, nextProps) => {
+//     // Only re-render if windowWidth has changed
+//     return prevProps.windowWidth === nextProps.windowWidth;
+//   });

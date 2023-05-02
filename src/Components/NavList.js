@@ -5,40 +5,43 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon'; 
 import ListItemText from '@mui/material/ListItemText';
 import { LightbulbOutlined as Lightbulb, ArchiveOutlined as Archive, DeleteOutlineOutlined as Delete } from "@mui/icons-material";
-
+import { Link } from "react-router-dom";
 const NavList = ({open})=>{
   
     const iconList = [
         {id: 1, name: 'Notes', icon: <Lightbulb/>},
         {id: 2, name: 'Archive', icon: <Archive/>},
-        {id: 3, name: 'Deleted', icon: <Delete/>}
+        {id: 3, name: 'Trash', icon: <Delete/>}
     ]
     return(
         <List>
-          {iconList.map((list) => (
-            <ListItem key={list.id} disablePadding sx={{ display: 'block'}}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  "&:hover": { background: "#dae6ed"},
-                  borderTopRightRadius: '25px',
-                  borderBottomRightRadius: '25px'
-                  
-                }}
-              >
-                <ListItemIcon
+          {iconList.map((item) => (
+            
+              <ListItem key={item.id} disablePadding sx={{ display: 'block'}}>
+                <Link to={item.name === 'Notes' ? '/' : (item.name === 'Archive' ? '/Archive' : '/Trash')}>
+                <ListItemButton
                   sx={{
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    "&:hover": { background: "#dae6ed"},
+                    borderTopRightRadius: '25px',
+                    borderBottomRightRadius: '25px'
                     
                   }}
                 >
-                  {list.icon}
-                </ListItemIcon>
-                <ListItemText primary={list.name} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemIcon
+                    sx={{
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+                </Link>
+              </ListItem>
           ))}
         </List>
     )

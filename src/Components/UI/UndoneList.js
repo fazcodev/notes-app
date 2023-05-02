@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
-import { DragIndicatorOutlined } from '@mui/icons-material';
+import { DragIndicatorOutlined, Close } from '@mui/icons-material';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable as arrayMove } from 'array-move';
 
 import './UndoneList.css'
 import { TextField } from '@mui/material';
-const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
+import DataContext from '../Helpers/DataContext';
+const SortableItem = SortableElement(({cardNote, setTodo, value, labelId }) => {
   const editTodoHandler = async (event, itemId) => {
-    event.target.setSelectionRange(-1, -1)
     setTodo((prevList) => {
       let updatedList = { ...prevList };
       updatedList.undone.forEach(item => {
@@ -35,13 +35,17 @@ const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
     
 
   };
+  const deleteTodo = (itemId)=>{
+    setTodo((prevList)=>{
+      return {...prevList, undone: prevList.undone.filter((item)=>{return item.id !== itemId})};
+    })
+  }
   return (
     <ListItem
       disablePadding
-      dense
     >
 
-      <ListItemButton role={undefined} dense disableRipple className='item pl-0 cursor-text'>
+      <ListItemButton dense disableRipple className='item pl-0 cursor-text'>
         <DragHandle />
         <ListItemIcon className='min-w-fit'>
           <Checkbox
@@ -62,33 +66,39 @@ const SortableItem = SortableElement(({todo, setTodo, value, labelId }) => {
           InputProps={{
             disableUnderline: true,
           }}
-          autoFocus
+          autoFocus = {!cardNote}
+          onFocus={(event)=>event.target.setSelectionRange(-1, -1)}
           className="w-full pl-3"
           value = {value.text}
           onChange={(event)=>editTodoHandler(event, value.id)}
         />
+        <button onClick={()=>deleteTodo(value.id)}><Close className='text-lg text-gray-300 hover:text-gray-500'/></button>
       </ListItemButton>
     </ListItem>
   )
 
 })
-const DragHandle = SortableHandle(() => <button><DragIndicatorOutlined className='drag outline-none invisible text-gray-500 cursor-move' /></button>)
 
-const SortableList = SortableContainer(({ items, todo, setTodo }) => {
+const DragHandle = SortableHandle(() => {
+  const ctx = useContext(DataContext)
+return (<button onMouseDown={()=>{ctx.setDragActive(true)}}><DragIndicatorOutlined className='drag outline-none invisible text-gray-500 cursor-move' /></button>)
+})
+
+const SortableList = SortableContainer(({ items, setTodo, cardNote }) => {
   return (
     <List
       sx={{ width: '100%', padding: 0 }}>
       {items.map((value, idx) => {
-        const labelId = `checkbox-list-label-${value.id}`;
 
         return (
-          <SortableItem todo={todo} setTodo = {setTodo} key={value.id} index={idx} value={value} labelId={value.id} />
+          <SortableItem cardNote = {cardNote} setTodo = {setTodo} key={value.id} index={idx} value={value} labelId={value.id} />
         )
       })}
     </List>
   )
 })
-export default function UndoneList({ todo, setTodo }) {
+export default function UndoneList({ todo, setTodo, cardNote }) {
+
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setTodo((prevTodo) => {
@@ -98,6 +108,6 @@ export default function UndoneList({ todo, setTodo }) {
   }
 
   return (
-    <SortableList todo={todo} setTodo = {setTodo} lockAxis='y' lockToContainerEdges={true} items={todo.undone} onSortEnd={onSortEnd} useDragHandle />
+    <SortableList helperClass='sortableHelper' cardNote = {cardNote} setTodo = {setTodo} lockAxis='y' lockToContainerEdges={true} items={todo.undone} onSortEnd={onSortEnd} useDragHandle />
   )
 }

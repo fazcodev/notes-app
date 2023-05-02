@@ -9,9 +9,9 @@ import {
 import DataContext from "../Helpers/DataContext";
 
 
-const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInputField, note}) => {
+const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInputField}) => {
     
-    const {deleteNoteHandler, archiveNoteHandler, openModal, newNote} = useContext(DataContext)
+    const {deleteNoteHandler, archiveNoteHandler, openModal, newNote, setOpenModal} = useContext(DataContext)
     let overlay = openModal.length !== 0 ? true: false;
     return (
         <div className="flex justify-between">
@@ -34,7 +34,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                     key="2"
                     className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                     title="Archive"
-                    onClick={overlay ? ()=>{archiveNoteHandler(newNote); closeHandler(); } : ()=>archiveNoteHandler(note)}
+                    onClick={()=>archiveNoteHandler(newNote)}
                 >
                     <ArchiveOutlined className="cursor-pointer" />
                 </li>
@@ -58,10 +58,10 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                         key="4"
                         className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                         title="Delete"
-                        onClick={(event)=>{
+                        onClick={()=>{
                            
                             deleteNoteHandler(newNote)
-                            closeHandler()
+                            setOpenModal("");
                         }}
                     >
                         <DeleteOutlined className="cursor-pointer" />

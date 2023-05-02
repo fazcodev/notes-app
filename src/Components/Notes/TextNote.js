@@ -1,17 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext} from "react";
 import NoteOptions from "./NoteOptions";
 import { TextField } from "@mui/material";
 import DataContext from "../Helpers/DataContext";
-const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote})=>{
+const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote, cardNote})=>{
 
     const ctx = useContext(DataContext)
-
-    const contentChangeHandler = (event)=>{
-      ctx.setNewNote((prevNote)=>{
-         return {...prevNote, [event.target.name]: event.target.value}
-        
-      })
-    }
       return (
         <>
          <TextField
@@ -23,10 +16,10 @@ const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote
             InputProps={{
               disableUnderline: true,
             }}
-            autoFocus
+            autoFocus = {!cardNote}
             name="heading"
             className="inline-block w-full px-3 py-2"
-            value = {ctx.newNote.heading}
+            value = {!cardNote ? ctx.newNote.heading : cardNote.heading}
             onChange={ctx.contentChangeHandler}
           />
           <TextField
@@ -38,10 +31,10 @@ const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote
             InputProps={{ disableUnderline: true }}
             name="text"
             className="inline-block w-full px-3 py-2"
-            value = {ctx.newNote.text}
+            value = {!cardNote ? ctx.newNote.text : cardNote.text}
             onChange={ctx.contentChangeHandler}
           />
-          <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeNote}/>
+          {!cardNote && <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeNote}/>}
           
         </>
     )

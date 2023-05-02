@@ -2,12 +2,11 @@ import React, { useContext, useEffect } from "react";
 import DataContext from "../Helpers/DataContext";
 import { CloseOutlined } from "@mui/icons-material";
 import './AlertBox.css'
-import { v4 } from "uuid";
 
 const AlertBox = ()=>{
     const {alertList, setAlertList} = useContext(DataContext)   
     useEffect(()=>{
-        if(alertList.length == 2){
+        if(alertList.length === 2){
 
             setAlertList((prevList)=>{
                 let updatedList = [...prevList];

@@ -1,33 +1,16 @@
-import { Grid } from '@mui/material'
-import React, { useContext, useEffect } from 'react'
-import DataContext from '../Helpers/DataContext'
-import { DeleteOutlined } from '@mui/icons-material'
-import Card from '../UI/Card'
+import React from "react";
+import NotesList from "./NotesList";
+import {Box} from '@mui/material'
 
-const NotesList = () => {
-    const ctx = useContext(DataContext)
-    return (
-        <>
-            {ctx.deletedNotes.length === 0 &&
-                <div className='mt-16 text-center inline-block opacity-30 text-slate-300 text-3xl'>
-                    <DeltedOutlined className='w-28 h-28'/>
-                    <h1>Notes you add appear here</h1>
-                </div> 
-            }
-            <Grid container className='mt-16 mx-auto'>
-                {
-                    ctx.deletedNotes.map((note) =>
-                        <Grid item className='w-1/5 m-3' key={note.id} >
-                            <Card Note={note} />
-                        </Grid>
-                    )
-                }
+const DeletedNotes = ()=>{
 
-            </Grid>
-        </>
-
-
+    return(
+        <Box sx = {{display: 'flex', width:'100%'}}>
+            <Box sx = {{p: 3, width: '100%', textAlign: 'center'}}>
+                <NotesList/>
+            </Box>
+        </Box>
     )
 }
 
-export default NotesList
+export default DeletedNotes;

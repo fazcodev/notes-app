@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 
-export default function UndoneList({todo, setTodo, checked, setChecked}) {
+export default function DoneList({todo, setTodo, checked, setChecked}) {
   
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value.id);

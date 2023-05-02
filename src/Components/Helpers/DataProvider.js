@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import DataContext from './DataContext'
-
+import { auth } from '../../firebase'
+import {remove, ref, set, getDatabase} from 'firebase/database'
+import AuthContext from '../Authentication/AuthContext'
 const DataProvider = (props)=>{
-    
+    const db = getDatabase()
+    const {fetchedNotes} = useContext(AuthContext)
     const [notesList, setNotesList] = useState([])
     const [archiveNotes, setArchiveNotes] = useState([])
     const [deletedNotes, setDeletedNotes] = useState([])
@@ -11,28 +14,51 @@ const DataProvider = (props)=>{
     const [newNote, setNewNote] = useState({
         id: "",
         bgcolor: "white",
-        url: "",
         heading: "",
         text: "",
         todo: {undone: [], done: []},
         isTodo: false
     })
-    const archiveNoteHandler = (note)=>{
-        setArchiveNotes((prevArchive)=>[note, ...prevArchive])
+    useEffect(()=>{
+        setNotesList(()=>{
+            fetchedNotes.notes.sort((a, b)=>b.timestamp-a.timestamp)
+            return fetchedNotes.notes
+        });
+        setArchiveNotes(()=>{
+            fetchedNotes.archivedNotes.sort((a, b)=>b.timestamp-a.timestamp)
+            return fetchedNotes.archivedNotes
+        });
+        setDeletedNotes(()=>{
+            fetchedNotes.deletedNotes.sort((a, b)=>b.timestamp-a.timestamp)
+            return fetchedNotes.deletedNotes
+        });
+    }, [fetchedNotes])
+    // console.log(notesList)
+    const archiveNoteHandler = async(note)=>{
+        remove(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`))
+        setNotesList((prevList)=>{
+            return(
+                prevList.filter((item)=>{
+                    return note.id !== item.id
+                })
+            )
+        })
+        set(ref(db, `/user/${auth.currentUser.uid}/archived/${note.id}`),note)
         setAlertList((prevList)=>["Note added to archive", ...prevList])
-        // deleteAlert();
-        setNotesList((prevList) => {
-            const updatedNotes = prevList.filter(data=>data.id !== note.id);
-            return updatedNotes
-        })
+        
     }
-    const deleteNoteHandler = (note)=>{
-        setDeletedNotes((prevDelete)=>[note, ...prevDelete])
-        setAlertList((prevList)=>["Note Deleted", ...prevList])
-        setNotesList((prevList) => {
-            const updatedNotes = prevList.filter(data=>data.id !== note.id);
-            return updatedNotes
+    const deleteNoteHandler = async(note)=>{
+        remove(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`))
+        setNotesList((prevList)=>{
+            return(
+                prevList.filter((item)=>{
+                    return note.id !== item.id
+                })
+            )
         })
+        
+        set(ref(db, `/users/${auth.currentUser.uid}/deleted/${note.id}`),note)
+        setAlertList((prevList)=>["Note Deleted", ...prevList])
     }
     const contentChangeHandler = (event) => {
         setNewNote((prevNote) => {
@@ -44,8 +70,10 @@ const DataProvider = (props)=>{
         });
       };
     const editImageHandler = (event) => {
+        
         setNewNote((prevNote) => {
-            const updatedNote = {...prevNote, url: URL.createObjectURL(event.target.files[0])}
+            let updatedNote = {...prevNote, image: event.target.files[0]}
+            delete updatedNote.url;
             return updatedNote;
         })
 
@@ -56,6 +84,8 @@ const DataProvider = (props)=>{
             return updatedNote;
         })
     }
+    const [dragActive, setDragActive] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState(100);
     return (
         <DataContext.Provider value={{
             notesList,
@@ -74,7 +104,11 @@ const DataProvider = (props)=>{
             deleteNoteHandler,
             contentChangeHandler,
             bgcolorHandler,
-            editImageHandler
+            editImageHandler,
+            dragActive,
+            setDragActive,
+            uploadStatus,
+            setUploadStatus
         }}>
             {props.children}
         </DataContext.Provider>

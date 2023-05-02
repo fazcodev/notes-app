@@ -8,7 +8,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
-const Notes = (props)=>{
+const Notes = ()=>{
     
     return(
         <Box sx = {{display: 'flex', width:'100%'}}>

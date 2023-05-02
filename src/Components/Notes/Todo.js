@@ -7,7 +7,7 @@ import DoneList from "../UI/DoneList"
 import NoteOptions from "./NoteOptions";
 import DataContext from "../Helpers/DataContext";
 
-const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>{
+const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, cardNote})=>{
     
     const ctx = useContext(DataContext)
     let overlay = Object.keys(ctx.openModal).length !== 0 ? true: false
@@ -24,7 +24,7 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>
     }
     useEffect(()=>{
         ctx.setNewNote((prevNote)=>{
-            let updatedNote = {...prevNote, todo: todoList, isTodo: true};
+            let updatedNote = {...prevNote, todo: todoList, isTodo: todoList.done.length !== 0 || todoList.undone.length !== 0};
             return updatedNote
         })
     }, [todoList])
@@ -53,16 +53,16 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>
                 disableUnderline: true,
                 }}
                 name="heading"
-                value = {ctx.newNote.heading}
+                value = {!cardNote ? ctx.newNote.heading : cardNote.heading}
                 className="inline-block w-full px-3 py-2"
                 onChange={contentChangeHandler}
             />
-            {todoList.undone.length !== 0 && <UndoneList todo = {todoList} setTodo = {setTodoList} checked={checked} setChecked={setChecked}/>}
+            {(todoList.undone || cardNote)  && <UndoneList todo = {!cardNote ? todoList : {undone : cardNote.todo.undone, done: cardNote.todo.done}} setTodo = {setTodoList} checked={checked} setChecked={setChecked}/>}
             <div className="flex justify-between px-4 py-1 border mb-3">
                 <AddOutlined className="text-lg relative top-1 left-3.5 text-gray-500"/>
                 <input type = 'text' placeholder="List item" value = "" className="ml-8 p-0 w-full" onChange={addItemHandler}/>
             </div>
-            {todoList.done.length !==0 &&
+            {(todoList.done && !cardNote) && 
                 <div className="my-3">
                     <div className="px-4 py-1">
                         <button onClick={handleToggle} className="relative left-3">{(!openDrop && <KeyboardArrowRightOutlined/>) || <KeyboardArrowDownOutlined/>}</button>
@@ -72,7 +72,7 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler})=>
                     {openDrop && <DoneList todo = {todoList} setTodo = {setTodoList} checked = {checked} setChecked={setChecked}/>}
                 </div>
             }
-            <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeList} note = {ctx.newNote}/>
+            {!cardNote && <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeList}/>}
         </>
     )
 }

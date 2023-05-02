@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import { createContext} from 'react'
 
 const DataContext = createContext({
     notesList: [],
@@ -17,7 +17,11 @@ const DataContext = createContext({
     bgcolorHandler: ()=>{},
     editImageHandler: ()=>{},
     newNote: {},
-    setNewNote:()=>{}
+    setNewNote:()=>{},
+    dragActive: Boolean,
+    setDragActive: ()=>{},
+    uploadStatus: Number,
+    setUploadStatus: ()=>{}   
 })
 
 export default DataContext
