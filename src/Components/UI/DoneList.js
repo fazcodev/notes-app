@@ -52,7 +52,7 @@ export default function DoneList({todo, setTodo, checked, setChecked}) {
     
                 >
                 
-                <ListItemButton  role={undefined} dense disableRipple className='item pl-6 cursor-text'>
+                <ListItemButton  role={undefined} dense disableRipple className='listItem pl-6 cursor-text'>
 
                     <ListItemIcon className='min-w-fit'>
                     <Checkbox

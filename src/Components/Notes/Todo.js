@@ -7,27 +7,29 @@ import DoneList from "../UI/DoneList"
 import NoteOptions from "./NoteOptions";
 import DataContext from "../Helpers/DataContext";
 
-const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, cardNote})=>{
+const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, cardNote, localNewNote, setLocalNewNote})=>{
     
-    const ctx = useContext(DataContext)
-    let overlay = Object.keys(ctx.openModal).length !== 0 ? true: false
-    const [todoList, setTodoList] = useState(overlay ? ctx.newNote.todo: {done: [], undone: []});
+    const [todoList, setTodoList] = useState(cardNote? cardNote.todo: localNewNote.todo);
     const [checked, setChecked] = useState([]);
     const [openDrop, setOpenDrop] = useState(false)
     const contentChangeHandler = (event)=>{
         
-        ctx.setNewNote((prevNote)=>{
+        setLocalNewNote((prevNote)=>{
             let updatedNote = {...prevNote, heading: event.target.value, isTodo: true}
             return updatedNote
         })
         
     }
     useEffect(()=>{
-        ctx.setNewNote((prevNote)=>{
-            let updatedNote = {...prevNote, todo: todoList, isTodo: todoList.done.length !== 0 || todoList.undone.length !== 0};
-            return updatedNote
-        })
+        if(!cardNote){
+            setLocalNewNote((prevNote)=>{
+                let updatedNote = {...prevNote, todo: todoList, isTodo: todoList.done.length !== 0 || todoList.undone.length !== 0};
+                return updatedNote
+            })
+        }
+        
     }, [todoList])
+    
     
     
     const addItemHandler = (event)=>{
@@ -53,7 +55,7 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, ca
                 disableUnderline: true,
                 }}
                 name="heading"
-                value = {!cardNote ? ctx.newNote.heading : cardNote.heading}
+                value = {!cardNote ? localNewNote.heading : cardNote.heading}
                 className="inline-block w-full px-3 py-2"
                 onChange={contentChangeHandler}
             />
@@ -72,7 +74,7 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, ca
                     {openDrop && <DoneList todo = {todoList} setTodo = {setTodoList} checked = {checked} setChecked={setChecked}/>}
                 </div>
             }
-            {!cardNote && <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeList}/>}
+            {!cardNote && <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeList} localNewNote = {localNewNote}/>}
         </>
     )
 }

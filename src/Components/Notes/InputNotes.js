@@ -48,7 +48,7 @@ const InputNotes = () => {
 
 
   const bgcolorHandler = (event) => {
-    ctx.setNewNote((prevNote) => {
+    setLocalNewNote((prevNote) => {
       let changedNote = { ...prevNote, bgcolor: event.target.value };
       return changedNote;
     });
@@ -76,16 +76,18 @@ const InputNotes = () => {
     
   }
   const closeNoteHandler = () => {
-    if (ctx.newNote.image || ctx.newNote.heading !== "" || ctx.newNote.text !== "" || ctx.newNote.isTodo) {
-      ctx.setNewNote((prevNote) => {
+
+    if (localNewNote.image || localNewNote.heading !== "" || localNewNote.text !== "" || localNewNote.isTodo) {
+      setLocalNewNote((prevNote) => {
         if(prevNote.image)prevNote.url = URL.createObjectURL(prevNote.image)
         prevNote.id = uuid();
         prevNote.timestamp = Math.floor(Date.now())/1000
         return prevNote; 
       });
-      writeToDb(ctx.newNote.id, ctx.newNote);
-      console.log(ctx.newNote)
-      ctx.setNewNote({ id: "", bgcolor: "white", heading: "", text: "" , todo: {undone: [], done: []}, isTodo: false});
+      writeToDb(localNewNote.id, localNewNote);
+      console.log(localNewNote)
+      setLocalNewNote({ id: "", bgcolor: "white", heading: "", text: "" , todo: {undone: [], done: []}, isTodo: false});
+
       
     }
     setBgcolor('white')
@@ -93,7 +95,7 @@ const InputNotes = () => {
     setMakeNote(false);
   };
   const insertImageHandler = (event) => {
-    ctx.setNewNote((prevNote) => {
+    setLocalNewNote((prevNote) => {
       let updatedNote = { ...prevNote, image: event.target.files[0] };
       return updatedNote
     });
@@ -146,13 +148,13 @@ const InputNotes = () => {
               </ul>
             </div>
           )}
-          {ctx.openModal.length === 0 && ctx.newNote.image && (
+          {ctx.openModal.length === 0 && localNewNote.image && (
             <div className="w-full overflow-y-auto max-h-72">
-              <img className="w-full" alt="Uploaded" src={URL.createObjectURL(ctx.newNote.image)}></img>
+              <img className="w-full" alt="Uploaded" src={URL.createObjectURL(localNewNote.image)}></img>
             </div>
           )}
-          {makeList && (<Todo bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeList = {setMakeList} closeHandler = {closeNoteHandler}/> )}
-          {makeNote && <TextNote bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeNote = {setMakeNote} closeHandler = {closeNoteHandler}/>}
+          {makeList && (<Todo setLocalNewNote = {setLocalNewNote} localNewNote = {localNewNote} bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeList = {setMakeList} closeHandler = {closeNoteHandler}/> )}
+          {makeNote && <TextNote setLocalNewNote = {setLocalNewNote} localNewNote = {localNewNote} bgcolorHandler = {bgcolorHandler} insertImageHandler = {insertImageHandler} setMakeNote = {setMakeNote} closeHandler = {closeNoteHandler}/>}
         </div>
       </ClickAwayListener>
       {ctx.uploadStatus < 100 && <div className="w-5/12 mx-auto mt-2 bg-gray-200 rounded-full dark:bg-gray-700">

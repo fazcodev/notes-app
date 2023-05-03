@@ -4,19 +4,23 @@ import {
     AddPhotoAlternateOutlined,
     ColorLensOutlined,
     ArchiveOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    UnarchiveOutlined,
+    RestoreFromTrashOutlined,
   } from "@mui/icons-material";
 import DataContext from "../Helpers/DataContext";
+import { useLocation } from "react-router-dom";
 
 
-const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInputField}) => {
+const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInputField, localNewNote}) => {
     
-    const {deleteNoteHandler, archiveNoteHandler, openModal, newNote, setOpenModal} = useContext(DataContext)
+    const {deleteNoteHandler, archiveNoteHandler, restoreHandler, unarchiveNoteHandler, openModal, setOpenModal} = useContext(DataContext)
+    const currLoc = useLocation().pathname
     let overlay = openModal.length !== 0 ? true: false;
     return (
         <div className="flex justify-between">
             <ul className="flex mb-2">
-                <li
+                {currLoc !== '/Trash' && <li
                     key="1"
                     className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                 >
@@ -29,16 +33,16 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                     <label htmlFor="bgcolor" className="cursor-pointer" title="Background Color">
                         <ColorLensOutlined />
                     </label>
-                </li>
+                </li>}
                 <li
                     key="2"
                     className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
-                    title="Archive"
-                    onClick={()=>archiveNoteHandler(newNote)}
+                    title={currLoc !== '/Archive' ? "Archive": 'Unarchive'}
+                    onClick={currLoc!=='/Archive' ? ()=>archiveNoteHandler(localNewNote): ()=>unarchiveNoteHandler(localNewNote)}
                 >
-                    <ArchiveOutlined className="cursor-pointer" />
+                    {currLoc !== '/Archive' ? <ArchiveOutlined className="cursor-pointer" /> : <UnarchiveOutlined className="cursor-pointer" />  }
                 </li>
-                <li
+                {currLoc!='/Trash' && <li
                     key="3"
                     className="ml-3 px-1 scroll-py-0.55 rounded-full hover:bg-sky-200"
                 >
@@ -52,19 +56,19 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                     <label htmlFor="file" title="Add Image">
                         <AddPhotoAlternateOutlined className="cursor-pointer" />
                     </label>
-                </li>
+                </li>}
                 {overlay && 
                     <li
                         key="4"
                         className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
-                        title="Delete"
-                        onClick={()=>{
+                        title={currLoc != '/Trash' ? 'Delete': 'Restore'}
+                        onClick={currLoc !== '/Trash' ? ()=>{
                            
-                            deleteNoteHandler(newNote)
+                            deleteNoteHandler(localNewNote)
                             setOpenModal("");
-                        }}
+                        }: ()=>restoreHandler(localNewNote)}
                     >
-                        <DeleteOutlined className="cursor-pointer" />
+                        {currLoc !== '/Trash' ? <DeleteOutlined className="cursor-pointer" />:<RestoreFromTrashOutlined className="cursor-pointer" />}
                     </li>
                 }
             </ul>
@@ -74,7 +78,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                         Add
                     </button>
                 } 
-                <button onClick={overlay ? closeHandler : () => { setInputField(false) }} className="hover:bg-sky-100 mb-2 px-2 py-1 mr-2 rounded-md">
+                <button onClick={overlay ? ()=>{setOpenModal("")} : () => { setInputField(false) }} className="hover:bg-sky-100 mb-2 px-2 py-1 mr-2 rounded-md">
                     Close
                 </button>
             </div>

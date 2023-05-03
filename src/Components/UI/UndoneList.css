@@ -1,7 +1,7 @@
-.item:hover .drag{
+.listItem:hover .drag{
     visibility: visible;
 }
-.item:focus .drag{
+.listItem:focus .drag{
     visibility: visible;
 }
 

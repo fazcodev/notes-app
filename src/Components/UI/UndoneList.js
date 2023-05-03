@@ -45,7 +45,7 @@ const SortableItem = SortableElement(({cardNote, setTodo, value, labelId }) => {
       disablePadding
     >
 
-      <ListItemButton dense disableRipple className='item pl-0 cursor-text'>
+      <ListItemButton dense disableRipple className='listItem pl-0 cursor-text'>
         <DragHandle />
         <ListItemIcon className='min-w-fit'>
           <Checkbox
@@ -58,6 +58,7 @@ const SortableItem = SortableElement(({cardNote, setTodo, value, labelId }) => {
           />
         </ListItemIcon>
         <TextField
+          spellCheck = {false}
           id={labelId}
           multiline
           maxRows={4}

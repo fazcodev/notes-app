@@ -11,14 +11,6 @@ const DataProvider = (props)=>{
     const [deletedNotes, setDeletedNotes] = useState([])
     const [alertList, setAlertList] = useState([])
     const [openModal, setOpenModal] = useState("");
-    const [newNote, setNewNote] = useState({
-        id: "",
-        bgcolor: "white",
-        heading: "",
-        text: "",
-        todo: {undone: [], done: []},
-        isTodo: false
-    })
     useEffect(()=>{
         setNotesList(()=>{
             fetchedNotes.notes.sort((a, b)=>b.timestamp-a.timestamp)
@@ -35,21 +27,25 @@ const DataProvider = (props)=>{
     }, [fetchedNotes])
     // console.log(notesList)
     const archiveNoteHandler = async(note)=>{
+        console.log(note);
         remove(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`))
         setNotesList((prevList)=>{
+            setArchiveNotes((prev)=>[note, ...prev]);
             return(
                 prevList.filter((item)=>{
                     return note.id !== item.id
                 })
             )
+            
         })
-        set(ref(db, `/user/${auth.currentUser.uid}/archived/${note.id}`),note)
+        set(ref(db, `/users/${auth.currentUser.uid}/archived/${note.id}`),note)
         setAlertList((prevList)=>["Note added to archive", ...prevList])
         
     }
     const deleteNoteHandler = async(note)=>{
         remove(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`))
         setNotesList((prevList)=>{
+            setDeletedNotes((prev)=>[note, ...prev])
             return(
                 prevList.filter((item)=>{
                     return note.id !== item.id
@@ -60,29 +56,32 @@ const DataProvider = (props)=>{
         set(ref(db, `/users/${auth.currentUser.uid}/deleted/${note.id}`),note)
         setAlertList((prevList)=>["Note Deleted", ...prevList])
     }
-    const contentChangeHandler = (event) => {
-        setNewNote((prevNote) => {
-          let changedNote = {
-            ...prevNote,
-            [event.target.name]: event.target.value,
-          };
-          return changedNote;
-        });
-      };
-    const editImageHandler = (event) => {
-        
-        setNewNote((prevNote) => {
-            let updatedNote = {...prevNote, image: event.target.files[0]}
-            delete updatedNote.url;
-            return updatedNote;
+    const unarchiveNoteHandler = async(note)=>{
+        remove(ref(db, `/users/${auth.currentUser.uid}/archived/${note.id}`))
+        setArchiveNotes((prevList)=>{
+            setNotesList((prev)=>[...prev, note])
+            return(
+                prevList.filter((item)=>{
+                    return note.id !== item.id
+                })
+            )
         })
-
+        set(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`),note)
+        setAlertList((prevList)=>["Note Unarchived", ...prevList])
     }
-    const bgcolorHandler = (event) => {
-        setNewNote((prevNote) => {
-            const updatedNote = {...prevNote, bgcolor: event.target.value}
-            return updatedNote;
+    const restoreHandler = async(note)=>{
+        remove(ref(db, `/users/${auth.currentUser.uid}/deleted/${note.id}`))
+        setDeletedNotes((prevList)=>{
+            setNotesList((prev)=>[...prev, note])
+            return(
+                prevList.filter((item)=>{
+                    return note.id !== item.id
+                })
+            )
         })
+        
+        set(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`),note)
+        setAlertList((prevList)=>["Note Restored", ...prevList])
     }
     const [dragActive, setDragActive] = useState(false);
     const [uploadStatus, setUploadStatus] = useState(100);
@@ -97,14 +96,11 @@ const DataProvider = (props)=>{
             alertList,
             setAlertList,
             openModal,
-            newNote,
-            setNewNote,
             setOpenModal,
             archiveNoteHandler,
             deleteNoteHandler,
-            contentChangeHandler,
-            bgcolorHandler,
-            editImageHandler,
+            unarchiveNoteHandler,
+            restoreHandler,
             dragActive,
             setDragActive,
             uploadStatus,

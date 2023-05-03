@@ -2,13 +2,22 @@ import React, { useContext} from "react";
 import NoteOptions from "./NoteOptions";
 import { TextField } from "@mui/material";
 import DataContext from "../Helpers/DataContext";
-const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote, cardNote})=>{
+const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote, cardNote, setLocalNewNote, localNewNote})=>{
 
-    const ctx = useContext(DataContext)
+    const contentChangeHandler = (event) => {
+      setLocalNewNote((prevNote) => {
+        let changedNote = {
+          ...prevNote,
+          [event.target.name]: event.target.value,
+        };
+        return changedNote;
+      });
+    };
       return (
         <>
          <TextField
             placeholder="Title"
+            spellCheck = {false}
             multiline
             maxRows={4}
             fullWidth
@@ -19,11 +28,12 @@ const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote
             autoFocus = {!cardNote}
             name="heading"
             className="inline-block w-full px-3 py-2"
-            value = {!cardNote ? ctx.newNote.heading : cardNote.heading}
-            onChange={ctx.contentChangeHandler}
+            value = {!cardNote ? localNewNote.heading : cardNote.heading}
+            onChange={contentChangeHandler}
           />
           <TextField
             placeholder="Take a note..."
+            spellCheck = {false}
             multiline
             fullWidth
             maxRows={4}
@@ -31,8 +41,8 @@ const TextNote = ({bgcolorHandler, insertImageHandler, closeHandler, setMakeNote
             InputProps={{ disableUnderline: true }}
             name="text"
             className="inline-block w-full px-3 py-2"
-            value = {!cardNote ? ctx.newNote.text : cardNote.text}
-            onChange={ctx.contentChangeHandler}
+            value = {!cardNote ? localNewNote.text : cardNote.text}
+            onChange={contentChangeHandler}
           />
           {!cardNote && <NoteOptions bgcolorHandler = {bgcolorHandler} insertImageHandler={insertImageHandler} closeHandler = {closeHandler} setInputField = {setMakeNote}/>}
           

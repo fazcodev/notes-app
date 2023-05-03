@@ -15,7 +15,7 @@ const Home = () => {
             <Box onMouseUp = {()=>{
                 setTimeout(()=>{setDragActive(false)}, 100)
             }} sx={{ display: 'flex', width: '100%' }} className={overlay ? `text-center content-center relative` : ``}>
-                {Object.keys(openModal).length !== 0 && <Overlay />}
+                {Object.keys(openModal).length !== 0 && <Overlay/>}
                 <SwipeDrawer />
                 <Outlet/>
             </Box>
