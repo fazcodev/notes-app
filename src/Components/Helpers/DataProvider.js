@@ -25,7 +25,7 @@ const DataProvider = (props)=>{
             return fetchedNotes.deletedNotes
         });
     }, [fetchedNotes])
-    // console.log(notesList)
+    console.log(notesList)
     const archiveNoteHandler = async(note)=>{
         console.log(note);
         remove(ref(db, `/users/${auth.currentUser.uid}/notes/${note.id}`))

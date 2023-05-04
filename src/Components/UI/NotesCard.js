@@ -64,7 +64,7 @@ const NotesCard = (props) => {
             <div className="handle block rounded-md absolute z-20 -top-2 left-1/2 w-12 h-3.5 bg-black -translate-x-1/2 opacity-0 transition-all ease-in-out delay-200 hover:cursor-move"></div>
             <div className="absolute rounded-md top-0 left-0 opacity-0 w-full h-full" style={{ zIndex: 1 }}></div>
             {props.Note.url || props.Note.image ? <div className='rounded-md overflow-hidden w-full h-full'><img className='w-full h-full' alt='Uploaded' src={props.Note.url ? props.Note.url : URL.createObjectURL(props.Note.image)}></img></div> :
-                (props.Note.isTodo ? <Todo className='rounded-md overflow-hidden' cardNote={props.Note} setTodoList={() => { }} /> : <TextNote className='rounded-md overflow-hidden' cardNote={props.Note} />)
+                (props.Note.isTodo ? <Todo className='rounded-md overflow-hidden' cardNote={props.Note}/> : <TextNote className='rounded-md overflow-hidden' cardNote={props.Note} />)
             }
 
             <div className="item-bar z-20 w-full absolute bottom-0 opacity-0 transition-all ease-in-out delay-200">

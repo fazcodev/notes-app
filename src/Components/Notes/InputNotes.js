@@ -58,39 +58,42 @@ const InputNotes = () => {
     ctx.setNotesList((prevList)=>[note, ...prevList]);
     if(note.image){
   
-          const uploadTask = uploadBytesResumable(refStore(store, `/users/${currentUser.uid}/${id}`), note.image);
-          uploadTask.on('state_changed', 
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              ctx.setUploadStatus(Math.trunc(progress))
-            }, 
-            (error) => {
-              // Handle unsuccessful uploads
-            }, 
-            () => {
-              delete note.image
-            }
-          );
+      const uploadTask = uploadBytesResumable(refStore(store, `/users/${currentUser.uid}/${id}`), note.image);
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          ctx.setUploadStatus(Math.trunc(progress))
+        }, 
+        (error) => {
+          // Handle unsuccessful uploads
+        }, 
+        () => {
+          delete note.image
+        }
+      );
     }
-    set(refDb(db, '/users/'+`${currentUser.uid}/notes/${note.id}`), note)
+    set(refDb(db, `/users/${currentUser.uid}/notes/${note.id}`), note)
     
   }
   const closeNoteHandler = () => {
 
     if (localNewNote.image || localNewNote.heading !== "" || localNewNote.text !== "" || localNewNote.isTodo) {
+      console.log(localNewNote)
       setLocalNewNote((prevNote) => {
         if(prevNote.image)prevNote.url = URL.createObjectURL(prevNote.image)
         prevNote.id = uuid();
         prevNote.timestamp = Math.floor(Date.now())/1000
+        writeToDb(localNewNote.id, localNewNote);
         return prevNote; 
       });
-      writeToDb(localNewNote.id, localNewNote);
+  
       console.log(localNewNote)
       setLocalNewNote({ id: "", bgcolor: "white", heading: "", text: "" , todo: {undone: [], done: []}, isTodo: false});
 
       
     }
     setBgcolor('white')
+    setLocalNewNote({ id: "", bgcolor: "white", heading: "", text: "" , todo: {undone: [], done: []}, isTodo: false});
     setMakeList(false)
     setMakeNote(false);
   };
@@ -148,7 +151,7 @@ const InputNotes = () => {
               </ul>
             </div>
           )}
-          {ctx.openModal.length === 0 && localNewNote.image && (
+          {(makeNote||makeList) && ctx.openModal.length === 0 && localNewNote.image && (
             <div className="w-full overflow-y-auto max-h-72">
               <img className="w-full" alt="Uploaded" src={URL.createObjectURL(localNewNote.image)}></img>
             </div>
