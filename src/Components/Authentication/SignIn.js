@@ -35,7 +35,7 @@ const SignIn = ()=>{
         }
     }
     return (
-        <div className="container text-center flex flex-col justify-center rounded-lg shadow-[0px_3px_6px_6px_rgba(0,_0,_0,_0.16)] p-4 fixed w-1/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="container text-center flex flex-col justify-center rounded-lg shadow-[0px_3px_6px_6px_rgba(0,_0,_0,_0.16)] p-4 fixed w-2/3 md:w-1/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <h1 className="text-3xl">Log In</h1>
             {error && <Alert severity="error">{error}</Alert>}
             <button onClick={handleGoogleSignIn} className="border inline-block mx-auto w-fit border-blue-300 bg-gray-200 hover:bg-gray-300 my-3 px-3 py-1 text-sm font-semibold"><img className="w-5 inline-block mr-2" src={googlelogo} alt='Sign in with google' />Log in with google</button>

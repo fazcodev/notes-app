@@ -30,7 +30,7 @@ const SignUp = ()=>{
         
     }
     return (
-        <div className="container text-center flex flex-col justify-center rounded-lg shadow-[0px_3px_6px_6px_rgba(0,_0,_0,_0.16)] p-4 absolute w-1/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="container text-center flex flex-col justify-center rounded-lg shadow-[0px_3px_6px_6px_rgba(0,_0,_0,_0.16)] p-4 absolute w-2/3 md:w-1/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <h1 className="text-3xl">SignUp</h1>
             <form className="text-left my-5" onSubmit={handleSubmit}>
                 {error && <Alert severity="error">{error}</Alert>}
