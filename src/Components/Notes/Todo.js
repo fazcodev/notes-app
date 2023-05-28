@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import { TextField } from "@mui/material";
 import { AddOutlined, KeyboardArrowRightOutlined, KeyboardArrowDownOutlined } from "@mui/icons-material";
 import { v4 } from "uuid";
 import UndoneList from "../UI/UndoneList";
 import DoneList from "../UI/DoneList"
 import NoteOptions from "./NoteOptions";
-import DataContext from "../Helpers/DataContext";
 
 const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, cardNote, localNewNote, setLocalNewNote})=>{
     

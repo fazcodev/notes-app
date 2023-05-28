@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, {useState} from 'react'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
 import { MuuriComponent } from 'muuri-react'
@@ -7,8 +7,6 @@ import NotesCard from '../UI/NotesCard'
 import './NotesList.css'
 import { useLocation } from 'react-router-dom'
 const NotesList = (props) => {
-    const [mouseDown, setMouseDown] = useState(false);
-    const [drag, setDrag] = useState(false);
     const path = useLocation().pathname
     return (
         <>
