@@ -68,7 +68,7 @@ const Todo = ({bgcolorHandler, insertImageHandler, setMakeList, closeHandler, ca
                 <div className="my-3">
                     <div className="px-4 py-1">
                         <button onClick={handleToggle} className="relative left-3">{(!openDrop && <KeyboardArrowRightOutlined/>) || <KeyboardArrowDownOutlined/>}</button>
-                        <h4 className="inline-block ml-6">{`${todoList.done.length} Completed Items`}</h4>
+                        <h4 className="inline-block text-sm sm:text-base ml-6">{`${todoList.done.length} Completed Items`}</h4>
                     </div>
                     
                     {openDrop && <DoneList todo = {todoList} setTodo = {setTodoList} checked = {checked} setChecked={setChecked}/>}

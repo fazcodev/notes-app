@@ -18,7 +18,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
     const currLoc = useLocation().pathname
     let overlay = openModal.length !== 0 ? true: false;
     return (
-        <div className="flex justify-between">
+        <div className={`flex justify-between ${overlay?'text-base':'text-sm'} sm:text-base`}>
             <ul className="flex mb-2">
                 {currLoc !== '/Trash' && <li
                     key="1"
@@ -36,7 +36,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 </li>}
                 <li
                     key="2"
-                    className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
+                    className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                     title={currLoc !== '/Archive' ? "Archive": 'Unarchive'}
                     onClick={currLoc!=='/Archive' ? ()=>archiveNoteHandler(localNewNote): ()=>unarchiveNoteHandler(localNewNote)}
                 >
@@ -44,7 +44,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 </li>
                 {currLoc!='/Trash' && <li
                     key="3"
-                    className="ml-3 px-1 scroll-py-0.55 rounded-full hover:bg-sky-200"
+                    className="sm:ml-3 px-1 scroll-py-0.55 rounded-full hover:bg-sky-200"
                 >
                     <input
                         type="file"
@@ -60,7 +60,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 {overlay && 
                     <li
                         key="4"
-                        className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
+                        className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
                         title={currLoc != '/Trash' ? 'Delete': 'Restore'}
                         onClick={currLoc !== '/Trash' ? ()=>{
                            
@@ -74,11 +74,11 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
             </ul>
             <div>
                 {!overlay && 
-                    <button onClick={closeHandler} className="hover:bg-sky-100 mb-2 px-2 py-1 mr-2 rounded-md">
+                    <button onClick={closeHandler} className="hover:bg-sky-100 mb-2 px-1 sm:px-2 py-0.5 sm:py-1 sm:mr-2 rounded-md">
                         Add
                     </button>
                 } 
-                <button onClick={overlay ? ()=>{setOpenModal("")} : () => { setInputField(false) }} className="hover:bg-sky-100 mb-2 px-2 py-1 mr-2 rounded-md">
+                <button onClick={overlay ? ()=>{setOpenModal("")} : () => { setInputField(false) }} className="hover:bg-sky-100 mb-2 px-1 sm:px-2 py-0.5 sm:py-1 mr-2 rounded-md">
                     Close
                 </button>
             </div>

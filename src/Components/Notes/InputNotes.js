@@ -114,11 +114,11 @@ const InputNotes = () => {
       <ClickAwayListener onClickAway={(makeList || makeNote)&&!ctx.dragActive ? closeNoteHandler: ()=>{}}>
         <div
           style={{ backgroundColor: bgcolor }}
-          className="container w-5/12 mx-auto mt-8 text-left shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-xl overflow-hidden"
+          className="container w-48 sm:w-5/12 mx-auto mt-8 text-left shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-xl overflow-hidden"
         >
           {!makeNote && !makeList && (
             <div className="flex justify-between cursor-text p-1">
-              <h4 className="mt-2 ml-2 w-full" onClick={()=>setMakeNote(true)}>
+              <h4 className="mt-2 ml-2 w-full text-xs sm:text-base" onClick={()=>setMakeNote(true)}>
                 Take a note...
               </h4>
               <ul className="flex mr-1">
@@ -127,7 +127,7 @@ const InputNotes = () => {
                     item.name !== "Image" && (
                       <li
                         key={item.id}
-                        className="ml-3 px-2 py-1.5 rounded-full hover:bg-sky-500/50"
+                        className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-sky-500/50"
                       >
                         {item.icon}
                       </li>
@@ -135,7 +135,7 @@ const InputNotes = () => {
                 )}
                 <li
                   key="3"
-                  className="ml-3 px-2 py-1.5 rounded-full hover:bg-sky-500/50"
+                  className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-sky-500/50"
                 >
                   <input
                     type="file"

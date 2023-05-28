@@ -22,7 +22,6 @@ export const AuthProvider = (props) => {
                 // console.log(notes)
                 await get(refDb(db, `/users/${user.uid}/notes`)).then(async (snapshot) => {
                     const data = snapshot.val()
-                    console.log(data)
                     if (data != null) {
 
                         Object.values(data).forEach(async (note, idx) => {

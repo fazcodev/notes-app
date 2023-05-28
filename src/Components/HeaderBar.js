@@ -26,19 +26,20 @@ const HeaderBar = ({ open, handleDrawer }) => {
           onClick={handleDrawer}
           edge="start"
           sx={{
-            marginRight: 5,
+            marginRight: 3,
             "&:hover": { background: "#dae6ed" },
             backgroundColor: open ? "#a5deff" : "white"
           }}
+          className = "sm: mr-5"
         >
           <MenuIcon />
         </IconButton>
-        <div className=" w-full flex flex-row justify-between m-10">
+        <div className=" w-full flex flex-row justify-between sm:m-10">
           <Typography variant="h6" noWrap component="div">
             Note Notify
           </Typography>
-          <h3 className="mr-5 text-center" onMouseEnter={showOptions} onMouseLeave={hideOptions}>Hello! {name}
-            <ul className={openOptions ? 'absolute h-36 flex flex-col justify-evenly rounded-xl py-2 bg-white w-1/6 right-5 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]' : 'hidden'}>
+          <h3 className="mr-5 mt-1 sm:mt-0 text-center cursor-pointer" onMouseEnter={showOptions} onMouseLeave={hideOptions}>Hello! {name}
+            <ul className={openOptions ? 'overflow-hidden absolute h-32 sm:h-36 text-sm sm:text-base flex flex-col justify-evenly rounded-xl py-2 bg-white w-1/3 sm:w-1/6 right-16 sm:right-5 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]' : 'hidden'}>
               <li>
                 <button className="hover:text-blue-400">View Profile</button>
               </li>
@@ -56,5 +57,6 @@ const HeaderBar = ({ open, handleDrawer }) => {
     </AppBar>
   )
 }
+
 
 export default HeaderBar

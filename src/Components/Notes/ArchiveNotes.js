@@ -3,7 +3,7 @@ import NotesList from "./NotesList";
 import {Box} from '@mui/material'
 import DataContext from "../Helpers/DataContext";
 
-const DeletedNotes = ()=>{
+const ArchivedNotes = ()=>{
     const {archiveNotes} = useContext(DataContext)
     return(
         <Box sx = {{display: 'flex', width:'100%'}}>
@@ -14,4 +14,4 @@ const DeletedNotes = ()=>{
     )
 }
 
-export default DeletedNotes;
+export default ArchivedNotes;

@@ -82,7 +82,7 @@ const Overlay = () => {
 
         <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1300 }} onClick={handleClose} className="fixed w-full h-full top-0 left-0 right-0 bottom-0">
             <div style={{ backgroundColor: localNewNote.bgcolor }}
-                className="container w-5/12 max-h-96 mx-auto mt-8 mb-8 text-left shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-xl overflow-hidden" onClick={(event) => event.stopPropagation()}>
+                className="container w-2/3 sm:w-5/12 max-h-96 mx-auto mt-8 mb-8 text-left shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] rounded-xl overflow-hidden" onClick={(event) => event.stopPropagation()}>
                 <div className="w-full max-h-96 overflow-y-scroll">
                     {(localNewNote.url || localNewNote.image) && <div className="w-full overflow-y-auto max-h-72">
                         <img className="w-full" alt="Uploaded" src={localNewNote.url ? localNewNote.url: URL.createObjectURL(localNewNote.image)}></img>
