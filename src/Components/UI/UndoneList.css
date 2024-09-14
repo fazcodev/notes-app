@@ -1,0 +1,10 @@
+.listItem:hover .drag{
+    visibility: visible;
+}
+.listItem:focus .drag{
+    visibility: visible;
+}
+
+.sortableHelper{
+    z-index: 9999;
+}

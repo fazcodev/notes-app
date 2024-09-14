@@ -1,0 +1,9 @@
+.container:hover .item-bar{
+    display: block;
+    opacity: 70%;
+    background-color: #e3e4e1;
+}
+
+.container:hover .handle{
+    opacity: 70%;
+}

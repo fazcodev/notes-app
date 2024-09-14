@@ -1,0 +1,41 @@
+input{
+    padding: 0.5rem 0;
+    font-size: medium;
+    border: none;
+
+}
+input:focus{
+    outline: none;
+}
+
+input::placeholder{
+    color: grey;
+}
+
+.startField{
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.icons{
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.icons li a{
+
+    margin: 0;
+    padding: 0.6rem 0.3rem 0.2rem 0.3rem;
+    width: 25px;
+    height: 25px;
+    margin-left: 0.8rem;
+    color: #72757a;
+    border-radius: 50%;
+    text-align: center;
+    contain: content;
+    
+}
