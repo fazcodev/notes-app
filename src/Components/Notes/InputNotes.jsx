@@ -125,7 +125,7 @@ const InputNotes = () => {
                     item.name !== "Image" && (
                       <li
                         key={item.id}
-                        className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-sky-500/50"
+                        className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-[#d1eaf4]"
                       >
                         {item.icon}
                       </li>
@@ -133,7 +133,7 @@ const InputNotes = () => {
                 )}
                 <li
                   key="3"
-                  className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-sky-500/50"
+                  className="sm:ml-3 px-2 py-1.5 text-xs sm:text-base rounded-full hover:bg-[#d1eaf4]"
                 >
                   <input
                     type="file"

@@ -22,7 +22,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
             <ul className="flex mb-2">
                 {currLoc !== '/Trash' && <li
                     key="1"
-                    className="ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
+                    className="ml-3 px-1 py-0.5 rounded-full hover:bg-[#d1eaf4]"
                 >
                     <input
                         type="color"
@@ -36,7 +36,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 </li>}
                 <li
                     key="2"
-                    className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
+                    className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-[#d1eaf4]"
                     title={currLoc !== '/Archive' ? "Archive": 'Unarchive'}
                     onClick={currLoc!=='/Archive' ? ()=>archiveNoteHandler(localNewNote): ()=>unarchiveNoteHandler(localNewNote)}
                 >
@@ -44,7 +44,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 </li>
                 {currLoc!='/Trash' && <li
                     key="3"
-                    className="sm:ml-3 px-1 scroll-py-0.55 rounded-full hover:bg-sky-200"
+                    className="sm:ml-3 px-1 scroll-py-0.55 rounded-full hover:bg-[#d1eaf4]"
                 >
                     <input
                         type="file"
@@ -60,7 +60,7 @@ const NoteOptions = ({bgcolorHandler, insertImageHandler, closeHandler, setInput
                 {overlay && 
                     <li
                         key="4"
-                        className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-sky-200"
+                        className="sm:ml-3 px-1 py-0.5 rounded-full hover:bg-[#d1eaf4]"
                         title={currLoc != '/Trash' ? 'Delete': 'Restore'}
                         onClick={currLoc !== '/Trash' ? ()=>{
                            

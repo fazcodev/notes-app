@@ -34,7 +34,7 @@ const NavList = ({ open }) => {
               sx={{
                 borderTopRightRadius: open ? '25px' : '0px',
                 borderBottomRightRadius: open ? '25px' : '0px',
-                backgroundColor: open && location.pathname === `/${item.name}` ? "#dae6ed" : "",
+                backgroundColor: open && location.pathname === `/${item.name}` ? "#d1eaf4" : "",
                 paddingY: 0,
                 paddingX: 1.1,
                 margin: 0,
@@ -46,7 +46,7 @@ const NavList = ({ open }) => {
                   justifyContent: "center",
                 }}
               >
-                <div className={`rounded-full p-3 flex items-center ${!open && location.pathname === `/${item.name}` ? "bg-[#dae6ed]" : ""}`}>{item.icon}</div>
+                <div className={`rounded-full p-3 flex items-center ${!open && location.pathname === `/${item.name}` ? "bg-[#d1eaf4]" : ""}`}>{item.icon}</div>
               </ListItemIcon>
               <ListItemText
                 primary={item.name}

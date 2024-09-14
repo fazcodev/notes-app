@@ -17,7 +17,7 @@ const HeaderBar = ({ open, dispatchDrawer }) => {
   // console.log(currentUser)
   return (
     <div
-      className="shadow-lg h-[4.5rem] sticky top-0 flex items-center gap-4 px-4 py-2"
+      className="shadow-lg h-[4.5rem] sticky top-0 flex items-center gap-4 px-4 py-2 bg-[#a7d7e9]"
       open={open}
     >
       <button
@@ -27,7 +27,10 @@ const HeaderBar = ({ open, dispatchDrawer }) => {
         <MenuIcon fontSize="medium" style={{ margin: "0px 1px" }} />
       </button>
       <div className=" w-full flex justify-between items-center">
-        <h1 className="text-3xl font-Kaushan">Note Notify</h1>
+        <div className="flex">
+          <img src = 'logo.svg' alt = 'logo' className = 'h-10 w-10 rounded-md' />
+          <h1 className="text-3xl font-Kaushan">Note Notify</h1>
+        </div>
         <h3
           className="mr-5 mt-1 sm:mt-0 text-center cursor-pointer"
           onMouseEnter={showOptions}
@@ -48,7 +51,12 @@ const HeaderBar = ({ open, dispatchDrawer }) => {
             </li>
             {!currentUser.emailVerified && (
               <li>
-                <button onClick={()=>navigate('/user/change-password')} className="hover:text-blue-400">Change Password</button>
+                <button
+                  onClick={() => navigate("/user/change-password")}
+                  className="hover:text-blue-400"
+                >
+                  Change Password
+                </button>
               </li>
             )}
           </ul>
